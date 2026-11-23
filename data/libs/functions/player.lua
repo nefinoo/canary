@@ -473,6 +473,13 @@ function Player:addItemStoreInbox(itemId, amount, movable, setOwner)
 	return inboxItem
 end
 
+-- Fishing RL: +0.1% relative drop chance per base Fishing Skill, max +15% at skill 150.
+-- Used by MonsterType:generateLootRoll; do NOT multiply factor again here.
+function Player:getFishingLootChanceBonus()
+	local fishingLevel = tonumber(self:getSkillLevel(SKILL_FISHING)) or 0
+	return math.min(150, math.max(0, fishingLevel)) * 0.001
+end
+
 ---@param monster Monster
 ---@return {factor: number, msgSuffix: string}
 function Player:calculateLootFactor(monster)
@@ -522,6 +529,12 @@ function Player:calculateLootFactor(monster)
 			local bonusText = string.format("task board bonus %d%%", math.floor(taskboardBonus * 100 + 0.5))
 			suffix = suffix == "" and bonusText or suffix .. ", " .. bonusText
 		end
+	end
+
+	local fishingBonus = self:getFishingLootChanceBonus()
+	if fishingBonus > 0 then
+		local bonusText = string.format("fishing skill +%.1f%% loot chance", fishingBonus * 100)
+		suffix = suffix == "" and bonusText or suffix .. ", " .. bonusText
 	end
 
 	return {
