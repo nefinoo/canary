@@ -12,7 +12,7 @@ function MonsterType:generateLootRoll(config, resultTable, player)
 	local factor = config.factor or 1.0
 	-- Applies to every loot roll (regular, bonus rolls and reward bosses), once per roll.
 	-- Use the corpse's loot owner, not buffed/effective Fishing or nearby party members.
-	local fishingLootMultiplier = player and (1.0 + player:getFishingLootChanceBonus()) or 1.0
+	local fishingLootMultiplier = (player and player:canReceiveLoot()) and (1.0 + player:getFishingLootChanceBonus()) or 1.0
 	if self:isRewardBoss() then
 		factor = factor * SCHEDULE_BOSS_LOOT_RATE / 100
 	end

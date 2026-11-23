@@ -13,7 +13,7 @@
 - Excluye entradas con `chance=0` y entradas cuya probabilidad configurada sea `>=MAX_LOOTCHANCE` para no alterar su comportamiento preexistente; la lógica anterior del factor aleatorio del servidor sigue vigente.
 - Aplica **una sola vez por tirada** y no vuelve a multiplicar el bonus en `Player:calculateLootFactor`, que únicamente añade un texto informativo al loot.
 - En party usa el Fishing Skill del **propietario del cadáver** (`corpse:getCorpseOwner()`); no suma los skills de los miembros ni de posibles personas cercanas.
-- No se aplica si no se identifica propietario de loot. El motor mantiene las restricciones actuales de stamina y acceso al loot.
+- No se aplica si no se identifica propietario de loot. Si el propietario no puede recibir loot por stamina, **no recibe el bonus de Fishing**; la generación base preexistente no se altera.
 
 ## Archivos
 
