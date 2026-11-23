@@ -3,7 +3,7 @@
 local mType = Game.createMonsterType("Shallow Reef Warden")
 local monster = {}
 monster.description = "shallow reef warden"
-monster.experience = 80 -- EXP base; 8 criaturas + benchmark hunt orientativo
+monster.experience = 80 -- EXP base de 2 Rotworms por seguridad a nivel 8
 monster.outfit = { lookType = 383, lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0, lookAddons = 0, lookMount = 0 }
 monster.health = 130 -- HP orientativos de encuentro semiboss
 monster.maxHealth = 130
