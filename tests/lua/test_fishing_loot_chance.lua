@@ -49,7 +49,10 @@ local function roll(skill, value, chance, factor, rewardBoss, randomJitter, canL
         loot = {{itemId = 123, chance = chance or 10000}},
         rewardBoss = rewardBoss or false,
     }, {__index = MonsterType})
-    local owner = skill == nil and nil or player(skill, canLoot)
+    local owner = nil
+    if skill ~= nil then
+        owner = player(skill, canLoot)
+    end
     local result = monster:generateLootRoll({factor = factor or 1.0, gut = false}, {}, owner)
     return result[123] ~= nil, result[123]
 end
