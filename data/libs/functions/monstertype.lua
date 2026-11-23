@@ -10,6 +10,9 @@ function MonsterType:generateLootRoll(config, resultTable, player)
 	local uniqueItems = {}
 
 	local factor = config.factor or 1.0
+	-- Applies to every loot roll (regular, bonus rolls and reward bosses), once per roll.
+	-- Use the corpse's loot owner, not buffed/effective Fishing or nearby party members.
+	local fishingLootMultiplier = player and (1.0 + player:getFishingLootChanceBonus()) or 1.0
 	if self:isRewardBoss() then
 		factor = factor * SCHEDULE_BOSS_LOOT_RATE / 100
 	end
@@ -38,6 +41,11 @@ function MonsterType:generateLootRoll(config, resultTable, player)
 
 		local dynamicFactor = factor * (math.random(95, 105) / 100)
 		local adjustedChance = chance * dynamicFactor
+		-- Increase chance only, never add extra rolls or quantities.
+		-- Preserve original behavior of configured guaranteed (MAX_LOOTCHANCE) loot.
+		if chance > 0 and chance < MAX_LOOTCHANCE then
+			adjustedChance = adjustedChance * fishingLootMultiplier
+		end
 
 		local originalChance = chance
 		if config.gut and iType:getType() == ITEM_TYPE_CREATUREPRODUCT then
