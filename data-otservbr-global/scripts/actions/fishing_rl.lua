@@ -1,7 +1,7 @@
 -- Canary RL / Fishing por niveles -- prototipo de pruebas, NO balance final.
 -- Cada criatura debe existir en data-otservbr-global/monster/fishing_rl/.
 -- Nota: sin modificaciones a la experiencia de caza normal ni al sistema global de loot.
--- Para impedir entrenar mas de 150 con otras canas / fuentes de skill, aplica PARCHE_LIMITE_GLOBAL_150.md.
+-- No hay limite personalizado de Fishing Skill: todos los lanzamientos validos entrenan Fishing.
 
 local fishing = Action()
 local WATER_IDS = {622,4597,4598,4599,4600,12561,12563,4601,4602,4609,4610,4611,4612,4613,4614,629,630,631,632,633,634,7236,9582,13988,13989,12560,21414}
@@ -57,7 +57,6 @@ local tarMonsters = {
 
 local AREA_TABLES = { water = waterMonsters, swamp = swampMonsters, lava = lavaMonsters, tar = tarMonsters }
 local AREA_ORDER = {"water", "swamp", "lava", "tar"}
-local MAX_FISHING_SKILL = 150  -- limite disenado; requiere parche en evento global para limitar TODA forma de entrenamiento
 local AREA_NAMES = {water = "Agua", swamp = "Veneno", lava = "Lava", tar = "Tar"}
 local AREA_MIN = {water = 10, swamp = 85, lava = 104, tar = 123}
 local BASE_CAPTURE = {water = 800, swamp = 600, lava = 450, tar = 300}  -- por 10 000 lanzamientos
@@ -99,7 +98,7 @@ end
 local function catchChance(skill, rodId, area)
     local bonusSkill = math.max(0, math.floor(skill) - AREA_MIN[area]) * 3
     local rodBonus = rodId == 9306 and 120 or 0
-    return math.min(1300, BASE_CAPTURE[area] + bonusSkill + rodBonus) -- 3% a 13%
+    return math.min(10000, BASE_CAPTURE[area] + bonusSkill + rodBonus) -- porcentaje natural maximo 100%; no limita el skill
 end
 local function chooseTier(eligible)
     -- Solo las tres mejores etapas disponibles (aun si el usuario supera el nivel maximo de la zona).
@@ -131,7 +130,7 @@ CANARY_RL_FISHING = {
     tables = AREA_TABLES, areaOrder = AREA_ORDER, areaNames = AREA_NAMES,
     areaMinimum = AREA_MIN, statStorage = STATS,
     scrollStorage = SCROLL_STORAGE, counterBase = COUNTER_BASE,
-    totalStorage = TOTAL_STORAGE, maxSkill = MAX_FISHING_SKILL, getStorageCount = storageCount,
+    totalStorage = TOTAL_STORAGE, getStorageCount = storageCount,
     getEligibleMonsters = eligibleMonsters, getCatchChance = catchChance,
     chooseTier = chooseTier
 }
@@ -152,8 +151,7 @@ function fishing.onUse(player, item, fromPosition, target, toPosition, isHotkey)
     local area = areaForItem(target.itemid)
     if not area then return false end
 
-    local rawSkill = player:getSkillLevel(SKILL_FISHING)
-    local skill = math.min(MAX_FISHING_SKILL, rawSkill)
+    local skill = player:getSkillLevel(SKILL_FISHING)
     if skill < AREA_MIN[area] then
         player:sendCancelMessage("Necesitas Fishing " .. AREA_MIN[area] .. " para " .. AREA_NAMES[area] .. ".")
         return true
@@ -181,9 +179,7 @@ function fishing.onUse(player, item, fromPosition, target, toPosition, isHotkey)
 
     addStorage(player, STATS[area])
     -- Entrena Fishing con cada lanzamiento valido; no se bloquea por falta de capturas.
-    if rawSkill < MAX_FISHING_SKILL then
-        player:addSkillTries(SKILL_FISHING, 1)
-    end
+    player:addSkillTries(SKILL_FISHING, 1)
     local success = math.random(1,10000) <= catchChance(skill, item.itemid, area)
     local monsterCaught = false
     if success then
@@ -194,9 +190,7 @@ function fishing.onUse(player, item, fromPosition, target, toPosition, isHotkey)
                 FISHINGMONSTERS[mob:getId()] = {owner = player:getName(), status = 1}
                 addStorage(player, COUNTER_BASE + selected.key)
                 addStorage(player, TOTAL_STORAGE)
-                if player:getSkillLevel(SKILL_FISHING) < MAX_FISHING_SKILL then
-                    player:addSkillTries(SKILL_FISHING, 1)
-                end
+                player:addSkillTries(SKILL_FISHING, 1)
                 player:sendTextMessage(MESSAGE_STATUS, "Has pescado: " .. selected.name .. "!")
                 if selected.serverBC then
                     Game.broadcastMessage(player:getName() .. " ha encontrado a " .. selected.name .. "!", MESSAGE_ADMINISTRATOR)
@@ -233,7 +227,7 @@ function testFish.onSay(player, words, param)
     local rodId = tonumber(args[5]) or 3483
     local scroll = (args[6] == "1") or (not args[6] and player:getStorageValue(cfg.scrollStorage) == 1)
     if not cfg.tables[area] or level < 1 or attempts < 1 or attempts > 20000
-        or not RODS[rodId] or skill < cfg.areaMinimum[area] or skill > cfg.maxSkill then
+        or not RODS[rodId] or skill < cfg.areaMinimum[area] then
         player:sendCancelMessage("Uso: /testfish level,skill,intentos,water|swamp|lava|tar,rodId,scroll(0|1)")
         return false
     end

@@ -1,12 +1,12 @@
--- PROVISIONAL / TEST ONLY: calibrated EXP requires representative hunting benchmarks.
+-- BALANCE PVE 8X / REFERENCIAL -- verificar in-game, no es una simulacion definitiva.
 -- Unique fishing semiboss; client lookType/corpse borrowed from existing 15.25 monsters.
 local mType = Game.createMonsterType("Tide Hunter")
 local monster = {}
 monster.description = "tide hunter"
-monster.experience = 22596 -- PROVISIONAL: reference Lv100 = 7,200 EXP for 3 minutes of hunt
+monster.experience = 44000 -- EXP base; 8 criaturas + benchmark hunt orientativo
 monster.outfit = { lookType = 449, lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0, lookAddons = 0, lookMount = 0 }
-monster.health = 26354 -- PROVISIONAL: do not assume a 3-minute kill before testing
-monster.maxHealth = 26354
+monster.health = 31200 -- HP orientativos de encuentro semiboss
+monster.maxHealth = 31200
 monster.race = "blood"
 monster.corpse = 13849
 monster.speed = 170
@@ -24,9 +24,20 @@ monster.loot = {
     { name = "gold coin", chance = 65000, maxCount = 11 },
     { name = "great health potion", chance = 2500 }
 } -- TEST loot; no unique drops and no Super Food yet
+-- REF: grim_reaper (8x); HP 3900, EXP 5500, DPS bruto 138.75.
+-- OBJETIVO: HP=31200, EXP=44000, DPS bruto=1110.00; tipo=benchmark aproximado.
+-- DPS formula: suma probabilistica de todos los ataques; puede diferir in-game por cooldown y resistencias.
 monster.attacks = {
-    {name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -285 },
-    {name = "combat", interval = 2400, chance = 23, type = COMBAT_ICEDAMAGE, minDamage = -61, maxDamage = -185, range = 7, radius = 2, shootEffect = CONST_ANI_ICE, effect = CONST_ME_ICEAREA, target = true }
+    {name = "melee", interval = 1000, chance = 100, minDamage = 0, maxDamage = -888},
+    {name = "combat", interval = 1000, chance = 100, type = COMBAT_PHYSICALDAMAGE,
+        minDamage = -222, maxDamage = -333, range = 7,
+        shootEffect = CONST_ANI_ARROW, target = true},
+    {name = "combat", interval = 2000, chance = 50, type = COMBAT_ICEDAMAGE,
+        minDamage = -622, maxDamage = -932, range = 7, radius = 2,
+        shootEffect = CONST_ANI_ICE, effect = CONST_ME_ICEAREA, target = true},
+    {name = "combat", interval = 1800, chance = 60, type = COMBAT_ICEDAMAGE,
+        minDamage = -466, maxDamage = -699, range = 7,
+        shootEffect = CONST_ANI_ICE, effect = CONST_ME_ICEAREA, target = true}
 }
 monster.defenses = {defense = 27, armor = 20, mitigation = 0.5}
 monster.elements = {

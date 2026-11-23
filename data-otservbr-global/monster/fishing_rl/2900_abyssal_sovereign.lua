@@ -1,12 +1,12 @@
--- PROVISIONAL / TEST ONLY: calibrated EXP requires representative hunting benchmarks.
+-- BALANCE PVE 8X / REFERENCIAL -- verificar in-game, no es una simulacion definitiva.
 -- Unique fishing semiboss; client lookType/corpse borrowed from existing 15.25 monsters.
 local mType = Game.createMonsterType("Abyssal Sovereign")
 local monster = {}
 monster.description = "abyssal sovereign"
-monster.experience = 1863327 -- PROVISIONAL: reference Lv100 = 7,200 EXP for 3 minutes of hunt
+monster.experience = 2621940 -- EXP base; 8 criaturas + benchmark hunt orientativo
 monster.outfit = { lookType = 35, lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0, lookAddons = 0, lookMount = 0 }
-monster.health = 1663257 -- PROVISIONAL: do not assume a 3-minute kill before testing
-monster.maxHealth = 1663257
+monster.health = 474997 -- HP orientativos de encuentro semiboss
+monster.maxHealth = 474997
 monster.race = "blood"
 monster.corpse = 5995
 monster.speed = 370
@@ -24,9 +24,20 @@ monster.loot = {
     { name = "gold coin", chance = 65000, maxCount = 92 },
     { name = "great health potion", chance = 2500 }
 } -- TEST loot; no unique drops and no Super Food yet
+-- REF: oozing_carcass (8x); HP 27500, EXP 20980, DPS bruto 789.79.
+-- OBJETIVO: HP=474997, EXP=2621940, DPS bruto=14085.33; tipo=extrapolacion 1500+.
+-- DPS formula: suma probabilistica de todos los ataques; puede diferir in-game por cooldown y resistencias.
 monster.attacks = {
-    {name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -8076 },
-    {name = "combat", interval = 2400, chance = 23, type = COMBAT_DEATHDAMAGE, minDamage = -1749, maxDamage = -5249, range = 7, radius = 2, shootEffect = CONST_ANI_SUDDENDEATH, effect = CONST_ME_MORTAREA, target = true }
+    {name = "melee", interval = 1000, chance = 100, minDamage = 0, maxDamage = -11268},
+    {name = "combat", interval = 1000, chance = 100, type = COMBAT_PHYSICALDAMAGE,
+        minDamage = -2817, maxDamage = -4226, range = 7,
+        shootEffect = CONST_ANI_ARROW, target = true},
+    {name = "combat", interval = 2000, chance = 50, type = COMBAT_DEATHDAMAGE,
+        minDamage = -7888, maxDamage = -11832, range = 7, radius = 2,
+        shootEffect = CONST_ANI_SUDDENDEATH, effect = CONST_ME_MORTAREA, target = true},
+    {name = "combat", interval = 1800, chance = 60, type = COMBAT_DEATHDAMAGE,
+        minDamage = -5916, maxDamage = -8874, range = 7,
+        shootEffect = CONST_ANI_SUDDENDEATH, effect = CONST_ME_MORTAREA, target = true}
 }
 monster.defenses = {defense = 189, armor = 128, mitigation = 0.5}
 monster.elements = {
