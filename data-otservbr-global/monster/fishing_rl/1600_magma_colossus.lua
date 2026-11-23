@@ -1,12 +1,12 @@
--- PROVISIONAL / TEST ONLY: calibrated EXP requires representative hunting benchmarks.
+-- BALANCE PVE 8X / REFERENCIAL -- verificar in-game, no es una simulacion definitiva.
 -- Unique fishing semiboss; client lookType/corpse borrowed from existing 15.25 monsters.
 local mType = Game.createMonsterType("Magma Colossus")
 local monster = {}
 monster.description = "magma colossus"
-monster.experience = 698442 -- PROVISIONAL: reference Lv100 = 7,200 EXP for 3 minutes of hunt
+monster.experience = 1574664 -- EXP base; 8 criaturas + benchmark hunt orientativo
 monster.outfit = { lookType = 35, lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0, lookAddons = 0, lookMount = 0 }
-monster.health = 661650 -- PROVISIONAL: do not assume a 3-minute kill before testing
-monster.maxHealth = 661650
+monster.health = 285266 -- HP orientativos de encuentro semiboss
+monster.maxHealth = 285266
 monster.race = "blood"
 monster.corpse = 5995
 monster.speed = 310
@@ -24,9 +24,20 @@ monster.loot = {
     { name = "gold coin", chance = 65000, maxCount = 53 },
     { name = "great health potion", chance = 2500 }
 } -- TEST loot; no unique drops and no Super Food yet
+-- REF: darklight_source (8x); HP 31550, EXP 22465, DPS bruto 630.00.
+-- OBJETIVO: HP=285266, EXP=1574664, DPS bruto=8459.29; tipo=extrapolacion 1500+.
+-- DPS formula: suma probabilistica de todos los ataques; puede diferir in-game por cooldown y resistencias.
 monster.attacks = {
-    {name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -3840 },
-    {name = "combat", interval = 2400, chance = 23, type = COMBAT_FIREDAMAGE, minDamage = -832, maxDamage = -2496, range = 7, radius = 2, shootEffect = CONST_ANI_FIRE, effect = CONST_ME_FIREAREA, target = true }
+    {name = "melee", interval = 1000, chance = 100, minDamage = 0, maxDamage = -6767},
+    {name = "combat", interval = 1000, chance = 100, type = COMBAT_PHYSICALDAMAGE,
+        minDamage = -1692, maxDamage = -2538, range = 7,
+        shootEffect = CONST_ANI_ARROW, target = true},
+    {name = "combat", interval = 2000, chance = 50, type = COMBAT_FIREDAMAGE,
+        minDamage = -4737, maxDamage = -7106, range = 7, radius = 2,
+        shootEffect = CONST_ANI_FIRE, effect = CONST_ME_FIREAREA, target = true},
+    {name = "combat", interval = 1800, chance = 60, type = COMBAT_FIREDAMAGE,
+        minDamage = -3553, maxDamage = -5329, range = 7,
+        shootEffect = CONST_ANI_FIRE, effect = CONST_ME_FIREAREA, target = true}
 }
 monster.defenses = {defense = 111, armor = 76, mitigation = 0.5}
 monster.elements = {
