@@ -59,7 +59,7 @@
 ## Qué no está incluido
 
 - No se modifica el loot universal de +0.1% por Fishing Skill, todavía pendiente de implementar.
-- No se modifican los 4 scripts de Fishing, sus requisitos ni el máximo de diseño Fishing 150.
+- El sistema de Fishing no tiene maximo personalizado de skill. El requisito del ultimo semiboss es Fishing 150, sin limitar el entrenamiento posterior; la experiencia, vida y dano conservan los benchmarks de este informe.
 - No se incluyen pruebas de distribución de daño por vocación, daños pico, resistencias ni análisis de economía/loot.
 - La experiencia y vida pueden requerir ajustes para alinear el tiempo real de captura + combate con una hunt normal.
 

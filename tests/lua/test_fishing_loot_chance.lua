@@ -59,7 +59,7 @@ end
 
 for skill, expected in pairs({
     [0] = 0.0, [10] = 0.01, [50] = 0.05,
-    [100] = 0.10, [150] = 0.15, [250] = 0.15,
+    [100] = 0.10, [150] = 0.15, [250] = 0.25, [300] = 0.30,
 }) do
     assert(math.abs(player(skill):getFishingLootChanceBonus() - expected) < 0.0000001, "Bonus wrong at Fishing " .. skill)
 end
@@ -68,7 +68,9 @@ assert(not roll(0, 10500), "No bonus must fail 10% drop at 10.5% roll")
 assert(roll(100, 10500), "Fishing 100 must raise drop chance to 11%")
 assert(not roll(100, 11200), "Fishing 100 must not raise chance to 11.2%")
 assert(roll(150, 11200), "Fishing 150 must raise chance to 11.5%")
-assert(not roll(250, 11600), "Fishing over 150 must not add more than 15%")
+assert(roll(250, 11600), "Fishing 250 must grant +25% loot chance")
+assert(not roll(250, 12600), "Fishing 250 must not exceed +25% loot chance")
+assert(roll(300, 12900), "Fishing 300 must grant +30% loot chance")
 assert(not roll(nil, 10500), "Ownerless loot must have no bonus")
 assert(not roll(150, 11200, 10000, 1, false, 100, false), "Low-stamina owner must receive no Fishing bonus")
 assert(roll(100, 11700, 10000, 1.1), "Existing loot factor must multiply with Fishing")

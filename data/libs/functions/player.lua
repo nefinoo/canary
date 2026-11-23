@@ -473,11 +473,11 @@ function Player:addItemStoreInbox(itemId, amount, movable, setOwner)
 	return inboxItem
 end
 
--- Fishing RL: +0.1% relative drop chance per base Fishing Skill, max +15% at skill 150.
+-- Fishing RL: +0.1% relative drop chance per base Fishing Skill, no custom cap.
 -- Used by MonsterType:generateLootRoll; do NOT multiply factor again here.
 function Player:getFishingLootChanceBonus()
 	local fishingLevel = tonumber(self:getSkillLevel(SKILL_FISHING)) or 0
-	return math.min(150, math.max(0, fishingLevel)) * 0.001
+	return math.max(0, fishingLevel) * 0.001
 end
 
 ---@param monster Monster

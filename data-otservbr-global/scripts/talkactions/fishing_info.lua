@@ -4,7 +4,7 @@ function command.onSay(player, words, param)
     if not cfg then player:sendCancelMessage("Fishing RL no cargado."); return false end
     local fishingLevel = player:getSkillLevel(SKILL_FISHING)
     local lootBonusPercent = player:getFishingLootChanceBonus() * 100
-    local out = string.format("[Canary RL Fishing]\nFishing actual: %d / %d\nBonus loot chance: +%.1f%%\nNivel / Fishing / Scroll\n", fishingLevel, cfg.maxSkill, lootBonusPercent)
+    local out = string.format("[Canary RL Fishing]\nFishing actual: %d\nBonus loot chance: +%.1f%%\nNivel / Fishing / Scroll\n", fishingLevel, lootBonusPercent)
     for _, area in ipairs(cfg.areaOrder) do
         out = out .. string.format("\n[%s] Fishing minimo: %d\n", cfg.areaNames[area], cfg.areaMinimum[area])
         for i = #cfg.tables[area], 1, -1 do
