@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Rat")
 local monster = {}
 
 monster.description = "a rat"
-monster.experience = 5
+monster.experience = 150
 monster.outfit = {
 	lookType = 21,
 	lookHead = 0,
@@ -30,8 +30,8 @@ monster.Bestiary = {
 	Locations = "Rookgaard and Mainland, in most sewers and caves near towns. They can be found almost everywhere in Tibia.",
 }
 
-monster.health = 20
-monster.maxHealth = 20
+monster.health = 25
+monster.maxHealth = 25
 monster.race = "blood"
 monster.corpse = 5964
 monster.speed = 67
@@ -58,7 +58,7 @@ monster.flags = {
 	canPushCreatures = false,
 	staticAttackChance = 90,
 	targetDistance = 1,
-	runHealth = 5,
+	runHealth = 0,
 	healthHidden = false,
 	isBlockable = false,
 	canWalkOnEnergy = false,
@@ -87,15 +87,15 @@ monster.attacks = {
 }
 
 monster.defenses = {
-	defense = 5,
-	armor = 1,
-	mitigation = 0.07,
+	defense = 0,
+	armor = 0,
+	mitigation = 0.00,
 }
 
 monster.elements = {
 	{ type = COMBAT_PHYSICALDAMAGE, percent = 0 },
 	{ type = COMBAT_ENERGYDAMAGE, percent = 0 },
-	{ type = COMBAT_EARTHDAMAGE, percent = 20 },
+	{ type = COMBAT_EARTHDAMAGE, percent = 0 },
 	{ type = COMBAT_FIREDAMAGE, percent = 0 },
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },

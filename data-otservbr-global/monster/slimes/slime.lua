@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Slime")
 local monster = {}
 
 monster.description = "a slime"
-monster.experience = 160
+monster.experience = 380
 monster.outfit = {
 	lookType = 19,
 	lookHead = 0,
@@ -31,8 +31,8 @@ monster.Bestiary = {
 		and in a cave northeast of Ab'Dendriel.",
 }
 
-monster.health = 150
-monster.maxHealth = 150
+monster.health = 50
+monster.maxHealth = 50
 monster.race = "venom"
 monster.corpse = 2127
 monster.speed = 60
@@ -73,13 +73,6 @@ monster.light = {
 	color = 0,
 }
 
-monster.summon = {
-	maxSummons = 3,
-	summons = {
-		{ name = "Slime", chance = 10, interval = 2000, count = 3 },
-	},
-}
-
 monster.voices = {
 	interval = 5000,
 	chance = 10,
@@ -89,20 +82,20 @@ monster.voices = {
 monster.loot = {}
 
 monster.attacks = {
-	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -110 },
+	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -18 },
 }
 
 monster.defenses = {
-	defense = 15,
-	armor = 3,
-	mitigation = 0.25,
+	defense = 2,
+	armor = 1,
+	mitigation = 0.10,
 }
 
 monster.elements = {
 	{ type = COMBAT_PHYSICALDAMAGE, percent = 0 },
-	{ type = COMBAT_ENERGYDAMAGE, percent = -10 },
-	{ type = COMBAT_EARTHDAMAGE, percent = 100 },
-	{ type = COMBAT_FIREDAMAGE, percent = -10 },
+	{ type = COMBAT_ENERGYDAMAGE, percent = 0 },
+	{ type = COMBAT_EARTHDAMAGE, percent = 0 },
+	{ type = COMBAT_FIREDAMAGE, percent = 0 },
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },
 	{ type = COMBAT_DROWNDAMAGE, percent = 0 },

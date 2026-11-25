@@ -2,7 +2,7 @@ local mType = Game.createMonsterType("Cave Rat")
 local monster = {}
 
 monster.description = "a cave rat"
-monster.experience = 10
+monster.experience = 240
 monster.outfit = {
 	lookType = 56,
 	lookHead = 0,
@@ -28,8 +28,8 @@ monster.Bestiary = {
 		Also appears in Rat Plague in Thais and Rat Plague in Rookgaard.",
 }
 
-monster.health = 30
-monster.maxHealth = 30
+monster.health = 35
+monster.maxHealth = 35
 monster.race = "blood"
 monster.corpse = 5964
 monster.speed = 75
@@ -56,7 +56,7 @@ monster.flags = {
 	canPushCreatures = false,
 	staticAttackChance = 90,
 	targetDistance = 1,
-	runHealth = 3,
+	runHealth = 0,
 	healthHidden = false,
 	isBlockable = false,
 	canWalkOnEnergy = false,
@@ -84,20 +84,20 @@ monster.loot = {
 }
 
 monster.attacks = {
-	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -10 },
+	{ name = "melee", interval = 2000, chance = 100, minDamage = 0, maxDamage = -12 },
 }
 
 monster.defenses = {
-	defense = 5,
+	defense = 1,
 	armor = 1,
-	mitigation = 0.10,
+	mitigation = 0.05,
 }
 
 monster.elements = {
 	{ type = COMBAT_PHYSICALDAMAGE, percent = 0 },
 	{ type = COMBAT_ENERGYDAMAGE, percent = 0 },
 	{ type = COMBAT_EARTHDAMAGE, percent = 0 },
-	{ type = COMBAT_FIREDAMAGE, percent = -10 },
+	{ type = COMBAT_FIREDAMAGE, percent = 0 },
 	{ type = COMBAT_LIFEDRAIN, percent = 0 },
 	{ type = COMBAT_MANADRAIN, percent = 0 },
 	{ type = COMBAT_DROWNDAMAGE, percent = 0 },
